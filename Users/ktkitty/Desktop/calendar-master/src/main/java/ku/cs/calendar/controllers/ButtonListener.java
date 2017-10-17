@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import ku.cs.calendar.MyAppTest;
 import ku.cs.calendar.models.Event;
 import ku.cs.calendar.models.Calendar;
+import ku.cs.calendar.models.DataSource;
 import ku.cs.calendar.models.Date;
 import ku.cs.calendar.models.Time;
 import ku.cs.calendar.views.MainView;
@@ -21,12 +22,14 @@ import ku.cs.calendar.views.MainView;
 public class ButtonListener implements ActionListener {
 	private MainView view;
 	private Calendar c;
-	private DatabaseController db = new DatabaseController();
+	//private DatabaseController db = new DatabaseController();
+	private DataSource dataSource;
 
 
 	public ButtonListener(MainView view, Calendar c) {
 		this.view = view;
 		this.c = c;
+//		this.dataSource = new FileController("test.txt");
 
 	}
 
@@ -51,15 +54,7 @@ public class ButtonListener implements ActionListener {
 				Date date = new Date(Integer.parseInt(d), m, Integer.parseInt(y), infomation);
 				Time time = new Time(hr, min);
 				Event app = new Event(date, time);
-				c.addEvent(app);
-//				db.insert(Integer.parseInt(d), m, Integer.parseInt(y), hr, min, infomation);
-				if(type.equals("Daily")) {
-					c.addDaily(app);
-				}else if (type.equals("Weekly")){
-					c.addWeekly(app);
-				}else if (type.equals("Monthly")){
-					c.addMonthly(app);
-				}
+				c.addEvent(app, type);
 				view.getInputPanel().getSuccess().setText("Success!");
 			}
 
@@ -67,6 +62,24 @@ public class ButtonListener implements ActionListener {
 		int count = 0;
 		int countd = 0;
 		if (source.equals(view.getInputPanel().getShowButton())) {
+			view.getInputPanel().getInfo().setText("");
+			view.getInputPanel().getSuccess().setText("");
+			count = 0;
+
+			for (int k = view.getLogPanel().getShowApp().size() - 1; k > -1; k--) {
+				view.getLogPanel().remove(view.getLogPanel().getShowApp().get(k));
+				view.getLogPanel().getShowApp().remove(k);
+				
+				if(view.getLogPanel().getDelEvent().size()!=0){
+				view.getLogPanel().remove(view.getLogPanel().getDelEvent().get(k));
+				view.getLogPanel().getDelEvent().remove(k);
+				}
+			}
+		
+
+			view.pack();
+			view.repaint();
+			
 			String searchD = String.valueOf(view.getInputPanel().getDay2().getSelectedItem());
 			String searchM = String.valueOf(view.getInputPanel().getMonth2().getSelectedItem());
 			String searchY = String.valueOf(view.getInputPanel().getYear2().getSelectedItem());
@@ -113,12 +126,7 @@ public class ButtonListener implements ActionListener {
 							
 							view.getLogPanel().remove(view.getLogPanel().getDelEvent().get(index-1));
 							view.getLogPanel().getDelEvent().remove(index-1);
-							c.delEvent(eventdel);
-							if(typedel.equals("Daily")) {
-								c.delDaily(eventdel);
-							}else if (typedel.equals("Monthly")) {
-								c.delMonthly(eventdel);
-							}
+							c.delEvent(eventdel, typedel);
 							
 							view.pack();
 							view.repaint();

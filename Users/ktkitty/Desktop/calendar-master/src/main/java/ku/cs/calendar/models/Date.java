@@ -1,9 +1,12 @@
 package ku.cs.calendar.models;
+
+import java.io.Serializable;
+
 /**
  * Natchaneeya Srithanavanich 5810404987
  */
 
-public class Date {
+public class Date  implements Serializable{
 	private int day;
 	private String month;
 	private int year;

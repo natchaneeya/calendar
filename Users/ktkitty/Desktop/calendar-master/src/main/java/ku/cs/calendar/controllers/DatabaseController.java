@@ -11,11 +11,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ku.cs.calendar.models.DataSource;
 import ku.cs.calendar.models.Date;
 import ku.cs.calendar.models.Event;
 import ku.cs.calendar.models.Time;
 
-public class DatabaseController {
+public class DatabaseController implements DataSource{
 	public DatabaseController() {
 	
 	}
@@ -41,15 +42,15 @@ public class DatabaseController {
 				ResultSet resultSet = statement.executeQuery(query);
 
 				while (resultSet.next()) {
-//					int id = resultSet.getInt(1);
-					int day = resultSet.getInt(1);
-					String month = resultSet.getString(2);
-					int year = resultSet.getInt(3);
-					String hr = resultSet.getString(4);
-					String min = resultSet.getString(5);
-					String info = resultSet.getString(6);
+					int id = resultSet.getInt(1);
+					int day = resultSet.getInt(2);
+					String month = resultSet.getString(3);
+					int year = resultSet.getInt(4);
+					String hr = resultSet.getString(5);
+					String min = resultSet.getString(6);
+					String info = resultSet.getString(7);
 
-					System.out.println("   Day: " + day + " Month: " + month + " Year: " + year + " Time: "
+					System.out.println("ID:  "+ id + " Day: " + day + " Month: " + month + " Year: " + year + " Time: "
 							+ hr + ":" + min + " ->Information: " + info);
 				}
 				// close connection
@@ -75,7 +76,7 @@ public class DatabaseController {
                 if ("Appointments".equals(rs.getString(3))) appointmentsTableExist = true;
             }
             if (!appointmentsTableExist) {
-                String query = "CREATE TABLE \"event\" ( `day` INTEGER , `month` TEXT, `year` INT , `hr` TEXT , `min` TEXT `info` TEXT)";
+                String query = "CREATE TABLE \"event\" ( `id` INTEGER PRIMARY KEY AUTO_INCREMENT, `day` INTEGER , `month` TEXT, `year` INT , `hr` TEXT , `min` TEXT `info` TEXT)";
                 Statement statement = conn.createStatement();
                 statement.execute(query);
             }
@@ -87,6 +88,8 @@ public class DatabaseController {
         }
 
     }
+	
+
 
 	public void insert(int DAY, String MONTH, int YEAR, String HR, String MIN, String INFO) {
 		try {
@@ -101,6 +104,15 @@ public class DatabaseController {
 						YEAR, HR, MIN, INFO);
 				Statement statement = conn.createStatement();
 				statement.execute(query);
+				
+				Date date = new Date(DAY, MONTH, YEAR, INFO);
+				Time time = new Time(HR, MIN);
+				Event e = new Event(date, time);
+	            query = "SELECT max(ID) FROM event";
+	            ResultSet resultSet = statement.executeQuery(query);
+	            resultSet.next();
+	            int id = resultSet.getInt(1);
+	            e.setId(id);
 
 				conn.close();
 			}
@@ -139,7 +151,7 @@ public class DatabaseController {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		setUp();
+		select();
 
 	}
 
@@ -160,31 +172,31 @@ public class DatabaseController {
 				//execute SQL statements
 //				System.out.println("-----Data in event-----");
 				
-				String query = "select * from event";
+				String query = "Select * from event";
 				Statement statement = conn.createStatement();
 				ResultSet resultSet = statement.executeQuery(query);
 				String ans="";
 				
 				while (resultSet.next()) {
-					int day = resultSet.getInt(1);
-					String month = resultSet.getString(2);
-					int year = resultSet.getInt(3);
-					String hr = resultSet.getString(4);
-					String min = resultSet.getString(5);
-					String info = resultSet.getString(6);
+					int id = resultSet.getInt(1);
+					int day = resultSet.getInt(2);
+					String month = resultSet.getString(3);
+					int year = resultSet.getInt(4);
+					String hr = resultSet.getString(5);
+					String min = resultSet.getString(6);
+					String info = resultSet.getString(7);
 					
 					Date d = new Date(day, month, year, info);
 					Time t = new Time(hr, min);
 					Event e = new Event(d, t);
 					events.add(e);
+					System.out.println("ID:  "+ id + " Day: " + day + " Month: " + month + " Year: " + year + " Time: "
+							+ hr + ":" + min + " ->Information: " + info);
 					
-					
-					
-//					ans += "hr + ':' + min + ' ->Information: ' + info";
-//					System.out.println("   Day: " + day + " Month: " + month + " Year: " + year + " Time: "
-//							+ hr + ":" + min + " ->Information: " + info);
+
 				}
 				conn.close();
+			return events;
 		
 			
 			}	

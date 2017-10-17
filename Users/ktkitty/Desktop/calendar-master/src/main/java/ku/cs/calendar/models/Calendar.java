@@ -1,44 +1,60 @@
 package ku.cs.calendar.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ku.cs.calendar.controllers.DatabaseController;
+import ku.cs.calendar.controllers.FileController;
 
 /**
  * Natchaneeya Srithanavanich 5810404987
  */
 
-public class Calendar {
+public class Calendar implements Serializable{
 	private ArrayList<Event> myCalendar;
-	private Event event;
-	private DatabaseController db = new DatabaseController();
+	private DataSource dataSource = new FileController("test2.txt");
+//	private DataSource dataSource = new DatabaseController();
 	
 
 	public Calendar() {
 		myCalendar = new ArrayList<>();
-		myCalendar = db.select();
+		myCalendar = dataSource.select();
 		
 	}
-	public void addEvent(Event event){
-		this.event = event;
-		myCalendar.add(event);
-		db.insert(event.getDate().getDay(), event.getDate().getMonth(),event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
+	public void addEvent(Event event, String type){
 		
+		if(type.equals("Not repeat")) {
+			myCalendar.add(event);
+			dataSource.insert(event.getDate().getDay(), event.getDate().getMonth(),event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
+		}else if (type.equals("Daily")) {
+			addDaily(event);
+		}else if (type.equals("Weekly")) {
+			addWeekly(event);
+		}else if (type.equals("Monthly")) {
+			addMonthly(event);
+		}
 	}
 
 	
-	public void delEvent(Event event){
-		this.event = event;
-		for (int i = 0; i < myCalendar.size(); i++) {
-			if (event.getDate().getDay() == myCalendar.get(i).getDate().getDay() &&
-					event.getDate().getMonth().equals(myCalendar.get(i).getDate().getMonth()) &&
-					event.getDate().getYear() == myCalendar.get(i).getDate().getYear() &&
-					event.getTime().getHr().equals(myCalendar.get(i).getTime().getHr()) &&
-					event.getTime().getMin().equals(myCalendar.get(i).getTime().getMin()) &&
-					event.getDate().getInfo().equals(myCalendar.get(i).getDate().getInfo()) ){
-				myCalendar.remove(i);
-				db.delete(event.getDate().getDay(), event.getDate().getMonth(),event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
+	public void delEvent(Event event,String type){
+		if(type.equals("Not repeat")) {
+			for (int i = 0; i < myCalendar.size(); i++) {
+				if (event.getDate().getDay() == myCalendar.get(i).getDate().getDay() &&
+						event.getDate().getMonth().equals(myCalendar.get(i).getDate().getMonth()) &&
+						event.getDate().getYear() == myCalendar.get(i).getDate().getYear() &&
+						event.getTime().getHr().equals(myCalendar.get(i).getTime().getHr()) &&
+						event.getTime().getMin().equals(myCalendar.get(i).getTime().getMin()) &&
+						event.getDate().getInfo().equals(myCalendar.get(i).getDate().getInfo()) ){
+					myCalendar.remove(i);
+					dataSource.delete(event.getDate().getDay(), event.getDate().getMonth(),event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
+				}
 			}
+		}else if (type.equals("Daily")) {
+			delDaily(event);
+		}else if (type.equals("Weekly")) {
+			
+		}else if (type.equals("Monthly")) {
+			delMonthly(event);
 		}
 	}
 	/**
@@ -47,50 +63,14 @@ public class Calendar {
 	 */
 	
 	public void addDaily(Event event) {
-		this.event = event;
 		int d = event.getDate().getDay();
 		int dayOfMonth =0;
 		int m = 0;
 		String mon = "";
 		boolean check = false;
 		Time time = new Time(event.getTime().getHr(), event.getTime().getMin());
-		if(event.getDate().getMonth().equals("January")) { 
-			dayOfMonth = 31 ;
-			m = 1;
-		}else if(event.getDate().getMonth().equals("February")) { 
-			dayOfMonth = 28 ;
-			m = 2;
-		}else if(event.getDate().getMonth().equals("March")) { 
-			dayOfMonth = 31 ;
-			m = 3;
-		}else if(event.getDate().getMonth().equals("April")) { 
-			dayOfMonth = 30 ;
-			m = 4;
-		}else if(event.getDate().getMonth().equals("May")) { 
-			dayOfMonth = 31 ;
-			m = 5;
-		}else if(event.getDate().getMonth().equals("June")) { 
-			dayOfMonth = 30 ;
-			m = 6;
-		}else if(event.getDate().getMonth().equals("July")) { 
-			dayOfMonth = 31 ;
-			m = 7;
-		}else if(event.getDate().getMonth().equals("August")) { 
-			dayOfMonth = 31 ;
-			m = 8;
-		}else if(event.getDate().getMonth().equals("September")) { 
-			dayOfMonth = 30 ;
-			m = 9;
-		}else if(event.getDate().getMonth().equals("October")) { 
-			dayOfMonth = 31 ;
-			m = 10;
-		}else if(event.getDate().getMonth().equals("November")) { 
-			dayOfMonth = 30 ;
-			m = 11;
-		}else if(event.getDate().getMonth().equals("December")) { 
-			dayOfMonth = 31 ;
-			m = 12;
-		}
+		dayOfMonth = event.checkDayOfMonth(event);
+		m = event.checkMonth(event);
 		for (int i = m; i <= 12; i++) {
 			if(i==1) { mon = "January";}
 			else if(i==2) { mon = "February";}
@@ -109,7 +89,7 @@ public class Calendar {
 				Date date = new Date(j, mon, event.getDate().getYear(), event.getDate().getInfo());
 				Event e = new Event(date, time);
 				myCalendar.add(e);
-				db.insert(j, mon, event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
+				dataSource.insert(j, mon, event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
 				
 			}
 			if(check == false) {
@@ -123,50 +103,14 @@ public class Calendar {
 	 * @param event
 	 */
 	public void addMonthly(Event event) {
-		this.event = event;
 		int d = event.getDate().getDay();
 		int dayOfMonth =0;
 		int m = 0;
 		String mon = "";
 		Time time = new Time(event.getTime().getHr(), event.getTime().getMin());
-		if(event.getDate().getMonth().equals("January")) { 
-			dayOfMonth = 31 ;
-			m = 1;
-		}else if(event.getDate().getMonth().equals("February")) { 
-			dayOfMonth = 28 ;
-			m = 2;
-		}else if(event.getDate().getMonth().equals("March")) { 
-			dayOfMonth = 31 ;
-			m = 3;
-		}else if(event.getDate().getMonth().equals("April")) { 
-			dayOfMonth = 30 ;
-			m = 4;
-		}else if(event.getDate().getMonth().equals("May")) { 
-			dayOfMonth = 31 ;
-			m = 5;
-		}else if(event.getDate().getMonth().equals("June")) { 
-			dayOfMonth = 30 ;
-			m = 6;
-		}else if(event.getDate().getMonth().equals("July")) { 
-			dayOfMonth = 31 ;
-			m = 7;
-		}else if(event.getDate().getMonth().equals("August")) { 
-			dayOfMonth = 31 ;
-			m = 8;
-		}else if(event.getDate().getMonth().equals("September")) { 
-			dayOfMonth = 30 ;
-			m = 9;
-		}else if(event.getDate().getMonth().equals("October")) { 
-			dayOfMonth = 31 ;
-			m = 10;
-		}else if(event.getDate().getMonth().equals("November")) { 
-			dayOfMonth = 30 ;
-			m = 11;
-		}else if(event.getDate().getMonth().equals("December")) { 
-			dayOfMonth = 31 ;
-			m = 12;
-		}
-		for (int i = m+1; i <= 12; i++) {
+		dayOfMonth = event.checkDayOfMonth(event);
+		m = event.checkMonth(event);
+		for (int i = m; i <= 12; i++) {
 			if(i==1) { 
 				mon = "January";
 				dayOfMonth = 31;
@@ -209,7 +153,7 @@ public class Calendar {
 				Date date = new Date(d, mon, event.getDate().getYear(), event.getDate().getInfo());
 				Event e = new Event(date, time);
 				myCalendar.add(e);
-				db.insert(d, mon, event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
+				dataSource.insert(d, mon, event.getDate().getYear(), event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
 			}
 			
 		}
@@ -220,7 +164,6 @@ public class Calendar {
 	 * @param event
 	 */
 	public void addWeekly(Event event) {
-		this.event = event;
 		int d = event.getDate().getDay();
 		int dayOfMonth =0;
 		int m = 0;
@@ -228,43 +171,8 @@ public class Calendar {
 		int lastday=0;
 		boolean check = false;
 		Time time = new Time(event.getTime().getHr(), event.getTime().getMin());
-		if(event.getDate().getMonth().equals("January")) { 
-			dayOfMonth = 31 ;
-			m = 1;
-		}else if(event.getDate().getMonth().equals("February")) { 
-			dayOfMonth = 28 ;
-			m = 2;
-		}else if(event.getDate().getMonth().equals("March")) { 
-			dayOfMonth = 31 ;
-			m = 3;
-		}else if(event.getDate().getMonth().equals("April")) { 
-			dayOfMonth = 30 ;
-			m = 4;
-		}else if(event.getDate().getMonth().equals("May")) { 
-			dayOfMonth = 31 ;
-			m = 5;
-		}else if(event.getDate().getMonth().equals("June")) { 
-			dayOfMonth = 30 ;
-			m = 6;
-		}else if(event.getDate().getMonth().equals("July")) { 
-			dayOfMonth = 31 ;
-			m = 7;
-		}else if(event.getDate().getMonth().equals("August")) { 
-			dayOfMonth = 31 ;
-			m = 8;
-		}else if(event.getDate().getMonth().equals("September")) { 
-			dayOfMonth = 30 ;
-			m = 9;
-		}else if(event.getDate().getMonth().equals("October")) { 
-			dayOfMonth = 31 ;
-			m = 10;
-		}else if(event.getDate().getMonth().equals("November")) { 
-			dayOfMonth = 30 ;
-			m = 11;
-		}else if(event.getDate().getMonth().equals("December")) { 
-			dayOfMonth = 31 ;
-			m = 12;
-		}
+		dayOfMonth = event.checkDayOfMonth(event);
+		m = event.checkMonth(event);
 		for (int i = m; i <= 12; i++) {
 			if(i==1) { mon = "January";}
 			else if(i==2) { mon = "February";}
@@ -283,7 +191,7 @@ public class Calendar {
 				check = true;
 				Date date = new Date(j, mon, event.getDate().getYear(), event.getDate().getInfo());
 				Event e = new Event(date, time);
-				addEvent(e);
+				addEvent(e,"Not repeat");
 				lastday = j;
 				j+=7;
 			}
@@ -293,50 +201,14 @@ public class Calendar {
 	}
 	
 	public void delDaily(Event event) {
-		this.event = event;
 		int d = event.getDate().getDay();
 		int dayOfMonth =0;
 		int m = 0;
 		String mon = "";
 		boolean check = false;
 		Time time = new Time(event.getTime().getHr(), event.getTime().getMin());
-		if(event.getDate().getMonth().equals("January")) { 
-			dayOfMonth = 31 ;
-			m = 1;
-		}else if(event.getDate().getMonth().equals("February")) { 
-			dayOfMonth = 28 ;
-			m = 2;
-		}else if(event.getDate().getMonth().equals("March")) { 
-			dayOfMonth = 31 ;
-			m = 3;
-		}else if(event.getDate().getMonth().equals("April")) { 
-			dayOfMonth = 30 ;
-			m = 4;
-		}else if(event.getDate().getMonth().equals("May")) { 
-			dayOfMonth = 31 ;
-			m = 5;
-		}else if(event.getDate().getMonth().equals("June")) { 
-			dayOfMonth = 30 ;
-			m = 6;
-		}else if(event.getDate().getMonth().equals("July")) { 
-			dayOfMonth = 31 ;
-			m = 7;
-		}else if(event.getDate().getMonth().equals("August")) { 
-			dayOfMonth = 31 ;
-			m = 8;
-		}else if(event.getDate().getMonth().equals("September")) { 
-			dayOfMonth = 30 ;
-			m = 9;
-		}else if(event.getDate().getMonth().equals("October")) { 
-			dayOfMonth = 31 ;
-			m = 10;
-		}else if(event.getDate().getMonth().equals("November")) { 
-			dayOfMonth = 30 ;
-			m = 11;
-		}else if(event.getDate().getMonth().equals("December")) { 
-			dayOfMonth = 31 ;
-			m = 12;
-		}
+		dayOfMonth = event.checkDayOfMonth(event);
+		m = event.checkMonth(event);
 		for (int i = 1; i <= 12; i++) {
 			if(i==1) { mon = "January";}
 			else if(i==2) { mon = "February";}
@@ -353,13 +225,12 @@ public class Calendar {
 			for (int j = 1; j <= dayOfMonth; j++) {
 				Date date = new Date(j, mon, event.getDate().getYear(), event.getDate().getInfo());
 				Event e = new Event(date, time);
-				delEvent(e);
+				delEvent(e,"Not repeat");
 			}
 		}
 		
 	}
 	public void delMonthly(Event event) {
-		this.event = event;
 		int d = event.getDate().getDay();
 		int dayOfMonth =0;
 		int m = 0;
@@ -443,7 +314,7 @@ public class Calendar {
 			if(d <= dayOfMonth) {
 				Date date = new Date(d, mon, event.getDate().getYear(), event.getDate().getInfo());
 				Event e = new Event(date, time);
-				delEvent(e);
+				delEvent(e,"Not repeat");
 			}
 			
 		}
@@ -451,7 +322,7 @@ public class Calendar {
 	
 	
 	
-	public String show(){
+	public String show(Event event){
 		return String.format("%s : %s  %s",event.getTime().getHr(), event.getTime().getMin(), event.getDate().getInfo());
 	}
 	

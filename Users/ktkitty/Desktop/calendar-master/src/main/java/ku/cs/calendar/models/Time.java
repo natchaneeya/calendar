@@ -1,11 +1,11 @@
 package ku.cs.calendar.models;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
+
 /**
  * Natchaneeya Srithanavanich 5810404987
  */
-public class Time {
+public class Time implements Serializable{
 	private String hr;
 	private String min;
 	

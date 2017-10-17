@@ -2,6 +2,7 @@ package ku.cs.calendar.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ku.cs.calendar.controllers.ButtonListener;
@@ -12,7 +13,7 @@ import ku.cs.calendar.views.MainView;
  * Natchaneeya Srithanavanich 5810404987
  */
 
-public class MainController {
+public class MainController  implements Serializable{
 	private MainView view;
 	private Calendar c;
 

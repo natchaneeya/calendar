@@ -122,7 +122,7 @@ public class DatabaseController implements DataSource{
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		setUp();
+		select();
 
 	}
 
@@ -163,6 +163,7 @@ public class DatabaseController implements DataSource{
 			String dbURL = "jdbc:sqlite:event.db";
 			Connection conn = DriverManager.getConnection(dbURL);
 			if(conn != null) {
+				System.out.println("in database ....");
 //				System.out.println("Connected to the database...");
 				//display database infomation
 				DatabaseMetaData dm = (DatabaseMetaData)conn.getMetaData();

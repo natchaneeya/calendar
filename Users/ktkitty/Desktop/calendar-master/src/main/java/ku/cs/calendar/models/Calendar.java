@@ -3,6 +3,9 @@ package ku.cs.calendar.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import ku.cs.calendar.controllers.DatabaseController;
 import ku.cs.calendar.controllers.FileController;
 
@@ -12,12 +15,16 @@ import ku.cs.calendar.controllers.FileController;
 
 public class Calendar implements Serializable{
 	private ArrayList<Event> myCalendar;
-	private DataSource dataSource = new FileController("test2.txt");
+	private DataSource dataSource;
+//	private DataSource dataSource = new FileController("test.txt");
 //	private DataSource dataSource = new DatabaseController();
 	
 
 	public Calendar() {
 		myCalendar = new ArrayList<>();
+		ApplicationContext df = new ClassPathXmlApplicationContext("database.xml");
+		dataSource = (DataSource) df.getBean("database");
+//		dataSource = new FileController("test.txt");
 		myCalendar = dataSource.select();
 		
 	}

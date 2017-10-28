@@ -8,13 +8,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ku.cs.calendar.models.Event;
-import ku.cs.calendar.controllers.DatabaseController;
-import ku.cs.calendar.controllers.FileController;
-import ku.cs.calendar.models.Calendar;
-import ku.cs.calendar.models.DataSource;
-import ku.cs.calendar.models.Date;
-import ku.cs.calendar.models.Time;
+import ku.cs.calendar.common.Calendar;
+import ku.cs.calendar.common.DataSource;
+import ku.cs.calendar.common.Date;
+import ku.cs.calendar.common.Event;
+import ku.cs.calendar.common.Time;
+import ku.cs.calendar.server.DatabaseController;
+import ku.cs.calendar.server.FileController;
 
 public class MyAppTest {
 

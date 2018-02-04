@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <style>
+  .img
+  {
+  position:absolute;
+  left:xxpx;
+  top:xxpx;
+  z-index: -1;
+  }
+  .tab{
+    width:70px;
+    height:75px;
+  }
+
+  table ,tr, th {
+    border: 5px;
+
+}
+  </style>
+</head>
+
+<body>
+  <img class="img" src="minion1.jpg" ></img>
+  <table >
+
+  <tr class="tab">
+    <td class="tab"><button  id="button1" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">1</button></td>
+    <td class="tab"><button  id="button2" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">2</button></td>
+    <td class="tab"><button  id="button3" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">3</button></td>
+  </tr>
+  <tr class="tab">
+    <td class="tab"><button  id="button4" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">4</button></td>
+    <td class="tab"><button  id="button5" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">5</button></td>
+    <td class="tab"><button  id="button6" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">6</button></td>
+  </tr>
+  <tr class="tab">
+    <td class="tab"><button  id="button7" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">7</button></td>
+    <td class="tab"><button  id="button8" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">8</button></td>
+    <td class="tab"><button  id="button9" type="button" onclick=checkPoint() class="btn btn-primary" style="width:70px; height:75px ; border:5px solid black; padding:0px">9</button></td>
+  </tr>
+
+</table>
+<p2>Score : <p1 id="score">100 </p1></p2>
+
+<form action="index.html">
+Your answer:<br>
+<input id="ans" type="text" name="answer" value="">
+<br>
+
+<br>
+<button  type="button" onclick=checkAns()  class="btn btn-warning">Submit</button>
+
+</form>
+
+
+</body>
+
+<script>
+ var check=0;
+ function checkPoint(){
+   check++;
+   var score = document.getElementById("score").innerHTML;
+   if(check >1){
+     var newscore = parseInt(score,10) -10;
+     document.getElementById("score").innerHTML = newscore;
+   }
+ }
+ function checkAns(){
+var score = document.getElementById("score").innerHTML;
+   if (document.getElementById("ans").value == "minion"){
+     window.alert("Correct");
+   }else{
+     var newscore = parseInt(score,10) -10;
+     document.getElementById("score").innerHTML = newscore;
+     window.alert("Wrong");
+
+   }
+
+ }
+
+
+
+
+
+
+
+$(document).ready(function(){
+    $("#button1").click(function(){
+        $("#button1" ).hide();
+
+    });
+    $("#button2").click(function(){
+        $("#button2" ).hide();
+
+    });
+    $("#button3").click(function(){
+        $("#button3" ).hide();
+    });
+    $("#button4").click(function(){
+        $("#button4" ).hide();
+    });
+    $("#button5").click(function(){
+        $("#button5" ).hide();
+    });
+    $("#button6").click(function(){
+        $("#button6" ).hide();
+    });
+    $("#button7").click(function(){
+        $("#button7" ).hide();
+    });
+    $("#button8").click(function(){
+        $("#button8" ).hide();
+    });
+    $("#button9").click(function(){
+        $("#button9" ).hide();
+    });
+
+
+});
+
+
+</script>
+</html>

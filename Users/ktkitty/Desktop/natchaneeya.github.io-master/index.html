@@ -1,0 +1,266 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>JS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Cuprum|Itim|Monoton');
+        h1 {
+            font-family: 'Monoton', cursive;
+            font-size: 100px;
+        }
+
+        body {
+            background-color: #ffe6f2;
+            font-family: 'Cuprum', sans-serif;
+        }
+
+        figure {
+            display: inline-block;
+        }
+
+        .start-btn {
+            background-color: #00ffcc;
+            color: white;
+            font-size: 50px;
+            padding: 5px;
+        }
+
+        .start-btn:hover {
+
+            border: 5px solid #141f1f;
+            color: white;
+            cursor: pointer;
+        }
+
+        .start-btn:active {
+            background-color: #33cccc;
+            color: white;
+            border: 1px solid black;
+        }
+
+        .choice {
+            background-color: #00ffcc;
+            color: white;
+            font-size: 30px;
+            padding: 5px;
+            font-family: 'Itim', cursive;
+            
+        }
+
+        .choice:hover {
+
+            border: 2px solid black;
+            color: white;
+            cursor: pointer;
+        }
+
+        .choice:active {
+            background-color: #33cccc;
+            color: white;
+            border: 1px solid black;
+        }
+
+
+        game-container {
+            display: block;
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #question {
+            border: 1px solid black;
+            background: #ff6666;
+            margin : 20 20 20 20;
+            padding : 10 10 10 10;
+            font-size: 30px;
+            color: white;
+        }
+
+        .choicepic{
+            background-color: white;
+            display: inline-block;
+            width: 50%;
+            
+        }
+
+        #score {
+            border-radius: 20px;
+            background: #33ccff;
+            padding: 10px;
+            margin : 20px 20px 20px 20px;
+            float : right;
+            font-size: 20px;
+            width : 20%;
+        }
+        
+
+        #time  {
+            border-radius: 20px;
+            background: #33ccff;
+            padding: 10px;
+            margin : 20px 20px 20px 20px;
+            float : right;
+            font-size: 20px;
+            width : 20%;
+        }
+        #result{
+            background: red;
+            color: white;
+            float: left;
+            width :30%;
+            font-size: 30px;
+            margin: 20px;
+
+        }
+        #total-time , #total-score{
+            background: palevioletred;
+            color:white;
+            padding: 10px 10px 10px 10px;
+            margin: 10px;
+            font-size: 30px;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+    <game-container></game-container>
+    <script src="jquery-3.3.1.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var questions;
+            var num = 0;
+            var score = 0;
+            var totalTime = 0;
+
+            function shuffle(a) {
+                var j, x, i;
+                for (i = a.length - 1; i > 0; i--) {
+                    j = Math.floor(Math.random() * (i + 1));
+                    x = a[i];
+                    a[i] = a[j];
+                    a[j] = x;
+                }
+            }
+
+            function showHome() {
+                $('game-container').append(`
+                    <h1>Game</h1>
+                    <figure>
+                        <img src="pics/10.png" width="250" height="200">
+                        <figcaption>
+                            <button class="start-btn" data-set="10">Start Game</button>
+                        </figcaption>
+                    </figure>
+                    <figure>
+                        <img src="pics/20.png" width="250" height="200">
+                        <figcaption>
+                            <button class="start-btn" data-set="20">Start Game</button>
+                        </figcaption>
+                    </figure>
+                `);
+                $('.start-btn').click(function (e) {
+                    score = 0;
+                    totalTime = 0;
+                    num = 0;
+                    let $this = e.target
+                    load().done(function () {
+                        questions = questions.slice(0, $this.dataset.set)
+                        showGamePlay()
+                    })
+                });
+            }
+            showHome()
+            function showGamePlay() {
+                num++;
+                if (questions.length == 0) {
+                    showEnd();
+                    return;
+                }
+                let question = questions.splice(0, 1)[0]
+                let time = 30;
+                $('game-container').html('')
+                $('game-container').append(`<div id="question">` + num + '.  ' + question.name + `</div>`)
+                for (i =0; i < question.choice.length; i++ ) {
+                    
+                   
+                    $('game-container').append(`<div class="choicepic">
+                        <figure >
+                            <img src=`+ question.choicepic[i] +` width="150" height="120">
+                            <figcaption>
+                                <div class="choice">`+question.choice[i]+`</button></div>
+                            </figcaption>
+                        </figure></div>`)
+                    
+                    
+                }
+                
+                $('game-container').append(`<div id="score">Score: ` + score + `</div>`)
+                $('game-container').append(`<div id="time"><p>Time: <span id="time-left">30</span></p></div>`)
+                $('game-container').append(`<div id="result"></div>`)
+
+                $('.choice').click(function (e) {
+                    $('.choice').off('click')
+                    clearInterval(timeInterval);
+                    let answer = e.target.innerHTML;
+                    console.log(answer);
+                    console.log(question.ans);
+                    if (answer == question.ans) {
+                        score += 5;
+                        $('#result').text("CORRECT!!!");
+
+                    } else {
+                        $('#result').text("WRONG!!");
+                    }
+                    totalTime = totalTime + (30 - time);
+                    setTimeout(function () {
+                        $('#result').text('');
+                        showGamePlay();
+                    }, 1000);
+
+                });
+
+                let timeInterval = setInterval(function () {
+                    time--;
+                    $('#time-left').text(time);
+                    if (time == 0) {
+                        clearInterval(timeInterval);
+                        $('#result').text("TIME OUT!!");
+                        setTimeout(function () {
+                            $('#result').text('');
+                            showGamePlay();
+                        }, 1000);
+                        totalTime += 30;
+                    }
+                }, 1000)
+            }
+
+            function showEnd() {
+                $('game-container').html('')
+                $('game-container').append(`<div id="total-time">Time : ` + totalTime + `</div>`)
+                $('game-container').append(`<div id="total-score">Score : ` + score + `</div>`)
+                showHome()
+            }
+
+
+
+            function load() {
+                return $.ajax({
+                    url: 'data.json',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: (response) => {
+                        questions = response
+                        shuffle(questions)
+                    }
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>

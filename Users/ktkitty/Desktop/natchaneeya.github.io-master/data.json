@@ -1,0 +1,211 @@
+[
+    {
+        "name": "ชื่อนามสกุลจริงของ Hello kitty คืออะไร ?",
+        "choice": [
+            "Kitty White",
+            "White Kitty",
+            "Charmmy Kitty",
+            "Mimmy White"
+        ],
+        "choicepic": ["pics/1.1.jpg","pics/1.2.png","pics/1.3.png","pics/1.4.png"],
+        "ans":"Kitty White"
+    },
+    {
+        "name": "คิตตี้มีน้ำหนักเท่ากับแอปเปิ้ลกี่ผล ?",
+        "choice": [
+            "1",
+            "3"
+        ],
+        "choicepic": ["pics/2.1.png","pics/2.2.jpg"],
+        "ans": "3"
+    },
+    {
+        "name": "คิตตี้มีหมู่เลือดอะไร ?",
+        "choice": [
+            "A",
+            "B",
+            "AB",
+            "O"
+        ],
+        "choicepic": ["pics/3.1.jpg","pics/3.2.jpg","pics/3.3.jpg","pics/3.4.jpg"],
+        "ans": "A"
+    },
+    {
+        "name": "คิตตี้เกิดในประเทศอะไร ?",
+        "choice": [
+            "Japan",
+            "Korea",
+            "France",
+            "English"
+        ],
+        "choicepic": ["pics/4.1.jpg","pics/4.2.png","pics/4.3.png","pics/4.4.png"],
+        "ans": "English"
+    },
+    {
+        "name": "แม่ของคิตตี้ชื่ออะไร ?",
+        "choice": [
+            "Anthony",
+            "Mary",
+            "Mimmy",
+            "Margaret"
+        ],
+        "choicepic": ["pics/5.1.png","pics/5.2.png","pics/5.3.png","pics/5.4.png"],
+        "ans": "Mary"
+    },
+    {
+        "name": "อาหารที่คิตตี้ชอบกินที่สุดคืออะไร ?",
+        "choice": [
+            "ไก่ทอดฝีมือคุณพ่อ",
+            "สปาเก็ตตี้ฝีมือคุณแม่",
+            "พายแอปเปิ้ลฝีมือคุณแม่",
+            "ลูกอมของมิมมี่"
+        ],
+        "choicepic": ["pics/6.1.jpg","pics/6.2.jpg","pics/6.3.jpg","pics/6.4.jpg"],
+        "ans": "พายแอปเปิ้ลฝีมือคุณแม่"
+    },
+    {
+        "name": "สัตว์เลี้ยงของคิตตี้ชื่ออะไร ใครเป็นคนให้มา ?",
+        "choice": [
+            "Charmmy ได้จาก George",
+            "Charmmy ได้จาก Anthony",
+            "Tippy ได้จาก George",
+            "Tippy ได้จาก Anthony"
+        ],
+        "choicepic": ["pics/7.1.png","pics/7.2.png","pics/7.3.png","pics/7.4.jpg"],
+        "ans": "Charmmy ได้จาก George"
+    },
+    {
+        "name": "ทำไมคืตตี้ถึงไม่มีปาก เพราะ ?",
+        "choice": [
+            "ผู้ออกแบบอยากให้เป็นใบ้",
+            "ผู้ออกแบบอยากให้เป็นการ์ตูน",
+            "ผู้ออกแบบอยากให้สื่อสารทางสีหน้า",
+            "ผู้ออกแบบอยากให้คิตตี้ดูน่ารัก"
+        ],
+        "choicepic": ["pics/8.1.jpg","pics/8.2.png","pics/8.3.jpg","pics/8.4.jpg"],
+        "ans": "ผู้ออกแบบอยากให้สื่อสารทางสีหน้า"
+    },
+    {
+        "name": "ใครเป็นผู้กุมหัวใจคิตตี้ ?",
+        "choice": [
+            "Daniel",
+            "Jodie",
+            "Tracy",
+            "Joey"
+        ],
+        "choicepic": ["pics/9.1.jpg","pics/9.2.jpg","pics/9.3.png","pics/9.4.jpg"],
+        "ans": "Daniel"
+    },
+    {
+        "name": "สัตว์เลี้ยงที่เป็นหนูแฮมสเตอร์ของคิตตี้มีชื่อว่าอะไร ?",
+        "choice": [
+            "Apple",
+            "Sugar"
+        ],
+        "choicepic": ["pics/10.1.jpg","pics/10.2.jpg"],
+        "ans": "Sugar"
+    },
+    {
+        "name": "คิตตี้เกิดวันที่เท่าไหร่ ?",
+        "choice": [
+            "11 พ.ค. 2517",
+            "1 พ.ย. 2517",
+            "11 พ.ค. 2520",
+            "1 พ.ย. 2520"
+        ],
+        "choicepic": ["pics/11.1.jpg","pics/11.2.jpg","pics/11.3.jpg","pics/11.4.jpg"],
+        "ans": "1 พ.ย. 2517"
+    },
+    {
+        "name": "คิตตี้ชอบสีอะไร ?",
+        "choice": [
+            "สีชมพู",
+            "สีเหลือง",
+            "สีฟ้า",
+            "สีม่วง"
+        ],
+        "choicepic": ["pics/12.1.jpg","pics/12.2.png","pics/12.3.jpg","pics/12.4.jpg"],
+        "ans": "สีชมพู"
+    },
+    {
+        "name": "คิตตี้เป็นแมวหรือคน ?",
+        "choice": [
+            "คน",
+            "แมว"
+        ],
+        "choicepic": ["pics/13.1.png","pics/13.2.jpg"],
+        "ans": "คน"
+    },
+    {
+        "name": "Little Twin Stars ฝาแฝดชื่ออะไร ?",
+        "choice": [
+            "Kuku,Lulu",
+            "Kiki,Lulu",
+            "Kuku,Lala",
+            "Kiki,Lala"
+        ],
+        "choicepic":["pics/14.1.jpg","pics/14.2.png","pics/14.3.png","pics/14.4.png"],
+        "ans" : "Kiki,Lala"
+    },
+    {
+        "name": "พ่อlittle twin stars ทำอาชีพอะไร ?",
+        "choice": [
+            "นักดนตรี",
+            "นักประดิษฐ์"
+        ],
+        "choicepic": ["pics/15.1.jpg","pics/15.2.jpg","pics/1.3.png","pics/1.4.png"],
+        "ans": "นักประดิษฐ์"
+    },
+    {
+        "name": "ข้อใดถูก ?",
+        "choice": [
+            "Little twin stars เกิดที่ดาวเนป",
+            "Little twin stars มีแม่เป็นแพทย์",
+            "Kiki ชอบตกดาว",
+            "Lala ชอบฤดูใบไม้ผลิ"
+        ],
+        "choicepic": ["pics/16.1.jpg","pics/16.2.png","pics/16.3.png","pics/16.4.png"],
+        "ans": "Kiki ชอบตกดาว"
+    },
+    {
+        "name": "ข้อใดผิด",
+        "choice": [
+            "Kiki ชอบฤดูร้อน",
+            "Lala ชอบฤดูหนาว",
+            "Kiki ชอบวาดภาพ",
+            "Lala ชอบทำอาหาร"
+        ],
+        "choicepic": ["pics/17.1.jpg","pics/17.2.png","pics/17.3.png","pics/17.4.jpg"],
+        "ans": "Kiki ชอบวาดภาพ"
+    },
+    {
+        "name": "ชื่อและตัวละครคนไหนที่ตรงกัน ?",
+        "choice": [
+            "Pompompurin",
+            "Mymelody",
+            "Oyama no Monkichi",
+            "Kuririn"
+        ],
+        "choicepic": ["pics/18.1.jpg","pics/18.2.png","pics/18.3.jpg","pics/18.4.png"],
+        "ans": "Kuririn"
+    },
+    {
+        "name": "Pompompurin มีเพื่อนซี้ชื่ออะไร ?",
+        "choice": [
+            "Muffin",
+            "Miffy"
+        ],
+        "choicepic": ["pics/19.1.png","pics/19.2.png"],
+        "ans": "Muffin"
+    },
+    {
+        "name": "Pompompurin เป็นหมาหรือหมี ?",
+        "choice": [
+            "ลูกหมา",
+            "ลูกหมี"
+        ],
+        "choicepic": ["pics/20.1.png","pics/20.2.png"],
+        "ans": "ลูกหมา"
+    }
+   
+]
